@@ -101,6 +101,7 @@ class meter_reading(models.Model):
 
 class Complaints_Replay(models.Model):
     consumer = models.ForeignKey(consumer,on_delete=models.CASCADE)
+    category=models.CharField(max_length=50)
     consumer_name = models.CharField(max_length=500)
     complaint = models.CharField(max_length=500)
     date = models.DateField()

@@ -395,14 +395,17 @@ class ConsumerConnectionAPIView(GenericAPIView):
 
     def post(self, request):
         consumer = request.data.get('consumer')
+        category = request.data.get('category')
         connection_amt = request.data.get('connection_amt')
         panchayath_type=request.data.get('panchayath_type')
         panchayath_name=request.data.get('panchayath_name')
         ward_no=request.data.get('ward_no')
         connection_status="0"
+        
+        if category == "Bpl":
+            return Response({'data':serializer.data, 'message':'Free Connection', 'success':True}, status = status.HTTP_201_CREATED)
 
-
-        serializer = self.serializer_class(data= {'consumer':consumer, 'connection_amt':connection_amt,'panchayath_type':panchayath_type,'panchayath_name':panchayath_name,'ward_no':ward_no,'connection_status':connection_status})
+        serializer = self.serializer_class(data= {'consumer':consumer, 'category':category, 'connection_amt':connection_amt,'panchayath_type':panchayath_type,'panchayath_name':panchayath_name,'ward_no':ward_no,'connection_status':connection_status})
         print(serializer)
         if serializer.is_valid():
             serializer.save()
