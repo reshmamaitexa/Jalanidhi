@@ -101,7 +101,6 @@ class meter_reading(models.Model):
 
 class Complaints_Replay(models.Model):
     consumer = models.ForeignKey(consumer,on_delete=models.CASCADE)
-    category=models.CharField(max_length=50)
     consumer_name = models.CharField(max_length=500)
     complaint = models.CharField(max_length=500)
     date = models.DateField()
@@ -122,6 +121,7 @@ class notification(models.Model):
 
 class connection_details(models.Model):
     consumer = models.ForeignKey(consumer,on_delete=models.CASCADE)
+    category = models.CharField(max_length=50)
     connection_amt = models.IntegerField()
     panchayath_type=models.CharField(max_length=20)
     panchayath_name=models.CharField(max_length=20)
