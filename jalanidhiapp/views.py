@@ -52,6 +52,7 @@ class LoginUsersAPIView(GenericAPIView):
 
     def post(self, request):
         u_id=''
+        category=''
         username = request.data.get('username')
         password = request.data.get('password')
         # role = request.data.get('role')
@@ -394,18 +395,22 @@ class ConsumerConnectionAPIView(GenericAPIView):
     serializer_class = connection_detailsRegisterSerializer
 
     def post(self, request):
-        consumer = request.data.get('consumer')
+        con = request.data.get('consumer')
         category = request.data.get('category')
         connection_amt = request.data.get('connection_amt')
         panchayath_type=request.data.get('panchayath_type')
         panchayath_name=request.data.get('panchayath_name')
         ward_no=request.data.get('ward_no')
         connection_status="0"
+
+        data=consumer.objects.all().filter(id=con).values()
+        for i in data:
+            name=i['name']
         
         if category == "Bpl":
             return Response({'data':serializer.data, 'message':'Free Connection', 'success':True}, status = status.HTTP_201_CREATED)
 
-        serializer = self.serializer_class(data= {'consumer':consumer, 'category':category, 'connection_amt':connection_amt,'panchayath_type':panchayath_type,'panchayath_name':panchayath_name,'ward_no':ward_no,'connection_status':connection_status})
+        serializer = self.serializer_class(data= {'consumer':con,'consumer_name':name, 'category':category, 'connection_amt':connection_amt,'panchayath_type':panchayath_type,'panchayath_name':panchayath_name,'ward_no':ward_no,'connection_status':connection_status})
         print(serializer)
         if serializer.is_valid():
             serializer.save()
@@ -507,11 +512,15 @@ class meter_reading_paymentdetailsAPIView(GenericAPIView):
     serializer_class=raeding_paymentRegisterSerializer
 
     def post(self,request):
-        consumer=request.data.get("consumer")
+        con=request.data.get("consumer")
         reading_amount=request.data.get("reading_amount")
         read_status='0'
 
-        serializer=self.serializer_class(data={'consumer':consumer,'reading_amount':reading_amount, 'read_status':read_status})
+        data=consumer.objects.all().filter(id=con).values()
+        for i in data:
+            name=i['name']
+
+        serializer=self.serializer_class(data={'consumer':con,'consumer_name':name,'reading_amount':reading_amount, 'read_status':read_status})
         print(serializer)
         if serializer.is_valid():
             serializer.save()

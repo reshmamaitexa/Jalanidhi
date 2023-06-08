@@ -80,6 +80,7 @@ class panchayath_details(models.Model):
 
 class payment(models.Model):
     consumer = models.ForeignKey(consumer,on_delete=models.CASCADE)
+    consumer_name = models.CharField(max_length=50)
     reading_amount = models.CharField(max_length=20)
     read_status = models.CharField(max_length=20)
 
@@ -122,6 +123,7 @@ class notification(models.Model):
 class connection_details(models.Model):
     consumer = models.ForeignKey(consumer,on_delete=models.CASCADE)
     category = models.CharField(max_length=50)
+    consumer_name = models.CharField(max_length=50)
     connection_amt = models.IntegerField()
     panchayath_type=models.CharField(max_length=20)
     panchayath_name=models.CharField(max_length=20)
